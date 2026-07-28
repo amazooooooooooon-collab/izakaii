@@ -13,12 +13,14 @@
   /* Google's default InfoWindow padding leaves a lot of empty space above the
      content; .gm-style-iw-d owns the outer gap and .gm-style-iw-c owns the
      inner one. padding-right on .popup-name keeps the first line clear of the
-     close (x) button, which floats in the top-right corner outside this padding box. */
-  .gm-style-iw-d {
+     close (x) button, which floats in the top-right corner outside this padding box.
+     Prefixed with .gm-style so this beats Google's own same-name rules, which are
+     scoped the same way and otherwise tie with ours on specificity. */
+  .gm-style .gm-style-iw-d {
     padding: 0 !important;
     overflow: hidden !important;
   }
-  .gm-style-iw-c {
+  .gm-style .gm-style-iw-c {
     padding: 12px !important;
   }
 
