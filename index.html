@@ -112,6 +112,21 @@
 
     const infoWindow = new google.maps.InfoWindow();
 
+    // CSS alone couldn't reliably beat Google's own same-specificity rules on
+    // .gm-style-iw-d / .gm-style-iw-c, so trim the padding imperatively once
+    // Google has finished building the InfoWindow's DOM for this open() call.
+    infoWindow.addListener('domready', function () {
+      const iwD = document.querySelector('.gm-style-iw-d');
+      if (iwD) {
+        iwD.style.padding = '0';
+        iwD.style.overflow = 'hidden';
+      }
+      const iwC = document.querySelector('.gm-style-iw-c');
+      if (iwC) {
+        iwC.style.padding = '12px';
+      }
+    });
+
     const markers = places.map(function (p) {
       const marker = new google.maps.Marker({
         position: { lat: p.lat, lng: p.lng },
