@@ -125,6 +125,18 @@
       if (iwC) {
         iwC.style.padding = '12px';
       }
+      // The close (x) button lives in its own header row (.gm-style-iw-chr),
+      // which reserves vertical space above the content independently of the
+      // iw-d/iw-c padding above. Collapse that row out of the layout flow and
+      // pin the button to the corner directly so it doesn't push content down.
+      const iwChr = document.querySelector('.gm-style-iw-chr');
+      if (iwChr) {
+        iwChr.style.position = 'absolute';
+        iwChr.style.top = '2px';
+        iwChr.style.right = '2px';
+        iwChr.style.height = '0';
+        iwChr.style.zIndex = '1';
+      }
     });
 
     const markers = places.map(function (p) {
