@@ -350,7 +350,13 @@
       center: { lat: areaCenter.lat, lng: areaCenter.lng },
       zoom: areaCenter.zoom,
       streetViewControl: false,
-      fullscreenControl: false
+      fullscreenControl: false,
+      panControl: false,
+      mapTypeControl: false,
+      rotateControl: false,
+      zoomControlOptions: {
+        position: google.maps.ControlPosition.LEFT_BOTTOM
+      }
     });
 
     const infoWindow = new google.maps.InfoWindow();
