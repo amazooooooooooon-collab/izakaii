@@ -349,11 +349,12 @@
     map = new google.maps.Map(document.getElementById('map'), {
       center: { lat: areaCenter.lat, lng: areaCenter.lng },
       zoom: areaCenter.zoom,
-      streetViewControl: false,
-      fullscreenControl: false,
-      panControl: false,
-      mapTypeControl: false,
-      rotateControl: false,
+      // Individually toggling streetView/fullscreen/pan/mapType/rotate/camera
+      // controls turned into whack-a-mole as Google adds new default UI over
+      // time. Disabling everything and opting back into just zoomControl is
+      // the version-proof way to keep only the buttons we actually want.
+      disableDefaultUI: true,
+      zoomControl: true,
       zoomControlOptions: {
         position: google.maps.ControlPosition.LEFT_BOTTOM
       }
