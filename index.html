@@ -130,16 +130,8 @@
 </div>
 
 <div class="filter-panel-container">
-  <button id="filterToggle" class="filter-toggle-btn" onclick="toggleFilterPanel(event)">絞り込み・並び替え ▾</button>
+  <button id="filterToggle" class="filter-toggle-btn" onclick="toggleFilterPanel(event)">絞り込み ▾</button>
   <div id="filterPanel" class="filter-panel">
-    <div class="filter-section">
-      <label class="filter-label">並び替え</label>
-      <select id="sortSelect">
-        <option value="default">デフォルト</option>
-        <option value="rating">評価が高い順</option>
-        <option value="reviews">レビュー数が多い順</option>
-      </select>
-    </div>
     <div class="filter-section">
       <label class="filter-label">予算感</label>
       <label class="checkbox-label"><input type="checkbox" class="price-checkbox" value="1" checked> 〜2,000円</label>
@@ -189,7 +181,6 @@
   let clusterer;
   let markersWithData = [];
   let currentArea = DEFAULT_AREA;
-  let sortMode = 'default';
   let priceFilter = new Set([...Object.keys(PRICE_LABELS), 'unknown']);
   let lateNightOnly = false;
   let currentLocationMarker = null;
@@ -249,32 +240,6 @@
     }).map(function (item) { return item.marker; });
     clusterer.clearMarkers();
     clusterer.addMarkers(visible);
-    // Freshly built markers already have no z-index override, so re-running
-    // applySort()'s "default" branch here would just be a synchronous
-    // 1000+ iteration no-op — exactly the kind of long task that starves
-    // tile rendering on first load. Only bother when a real sort is active.
-    if (sortMode !== 'default') {
-      applySort();
-    }
-  }
-
-  // Sorting a map (rather than a list) is expressed as stacking order: the
-  // "top" of the chosen ordering renders above everything else when pins
-  // overlap. "デフォルト" clears the override back to insertion order.
-  function applySort() {
-    if (sortMode === 'default') {
-      markersWithData.forEach(function (item) { item.marker.setZIndex(null); });
-      return;
-    }
-    const sorted = markersWithData.slice().sort(function (a, b) {
-      if (sortMode === 'rating') {
-        return (parseFloat(b.p.rating) || 0) - (parseFloat(a.p.rating) || 0);
-      }
-      return (parseInt(b.p.reviews, 10) || 0) - (parseInt(a.p.reviews, 10) || 0);
-    });
-    sorted.forEach(function (item, i) {
-      item.marker.setZIndex(sorted.length - i);
-    });
   }
 
   function switchArea(area) {
@@ -302,10 +267,6 @@
     document.getElementById('lateNightCheckbox').addEventListener('change', function (e) {
       lateNightOnly = e.target.checked;
       applyFilters();
-    });
-    document.getElementById('sortSelect').addEventListener('change', function (e) {
-      sortMode = e.target.value;
-      applySort();
     });
   }
   setupFilterControls();
