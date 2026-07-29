@@ -243,7 +243,13 @@
     }).map(function (item) { return item.marker; });
     clusterer.clearMarkers();
     clusterer.addMarkers(visible);
-    applySort();
+    // Freshly built markers already have no z-index override, so re-running
+    // applySort()'s "default" branch here would just be a synchronous
+    // 1000+ iteration no-op — exactly the kind of long task that starves
+    // tile rendering on first load. Only bother when a real sort is active.
+    if (sortMode !== 'default') {
+      applySort();
+    }
   }
 
   // Sorting a map (rather than a list) is expressed as stacking order: the
@@ -409,14 +415,16 @@
       } else {
         // Start with no markers registered; applyFilters() below adds back
         // exactly the subset matching the default area/price/late-night state.
+        // Deferred one more tick so it's not part of the same long task as
+        // this final marker-building batch.
         clusterer = new markerClusterer.MarkerClusterer({ map, markers: [] });
-        applyFilters();
+        setTimeout(applyFilters, 0);
       }
     }
 
     setTimeout(buildNextBatch, 0);
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDf•••••••••••••••••••••••••••••••&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfhFddE_owta0nY5Itz5lLYaRSx6_dXWs&callback=initMap" async defer></script>
 </body>
 </html>
