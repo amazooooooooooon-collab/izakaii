@@ -31,7 +31,7 @@
     padding: 12px !important;
   }
 
-  .fab-container { position: fixed; bottom: 50px; right: 16px; z-index: 1000; }
+  .fab-container { position: fixed; bottom: 50px; left: 16px; z-index: 1000; }
   .fab-button {
     width: 48px; height: 48px; border-radius: 50%;
     background: #333; color: white; border: none;
@@ -39,7 +39,7 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   }
   .fab-menu {
-    position: absolute; bottom: 58px; right: 0;
+    position: absolute; bottom: 58px; left: 0;
     background: white; border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     overflow: hidden; min-width: 180px;
@@ -99,7 +99,7 @@
   }
 
   .locate-button {
-    position: fixed; bottom: 110px; right: 16px; z-index: 1000;
+    position: fixed; bottom: 50px; right: 16px; z-index: 1000;
     width: 48px; height: 48px; border-radius: 50%;
     background: white; border: none; cursor: pointer;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
@@ -107,14 +107,14 @@
   }
 
   @media (max-width: 600px) {
-    .fab-container { bottom: 44px; right: 10px; }
+    .fab-container { bottom: 44px; left: 10px; }
     .fab-button { width: 36px; height: 36px; font-size: 16px; }
     .fab-menu { bottom: 42px; min-width: 150px; }
     .fab-menu a { padding: 10px 12px; font-size: 13px; }
     .footer-bar { font-size: 10px; padding: 4px 0; }
     .mobile-break { display: inline; }
     .area-tab { padding: 6px 10px; font-size: 12px; }
-    .locate-button { bottom: 90px; right: 10px; width: 36px; height: 36px; }
+    .locate-button { bottom: 44px; right: 10px; width: 36px; height: 36px; }
     .locate-button svg { width: 18px; height: 18px; }
   }
 </style>
