@@ -146,38 +146,31 @@
       }
     });
 
-    // With 1000+ places, building every Marker synchronously right after the
-    // map is created blocks the main thread long enough that the base map
-    // tiles never get a chance to paint. Defer marker construction until the
-    // map reports its first tiles are in, so the background renders immediately
-    // and markers/clustering populate a moment later.
-    google.maps.event.addListenerOnce(map, 'tilesloaded', function () {
-      const markers = places.map(function (p) {
-        const marker = new google.maps.Marker({
-          position: { lat: p.lat, lng: p.lng },
-          title: p.name
-        });
-
-        let popupHtml =
-          '<div class="popup-name">' + escapeHtml(p.name) + '</div>' +
-          '<div class="popup-row">評価: ' + escapeHtml(p.rating || '-') + '</div>' +
-          '<div class="popup-row">住所: ' + escapeHtml(p.address || '-') + '</div>' +
-          '<div class="popup-row">レビュー数: ' + escapeHtml(p.reviews || '-') + '</div>';
-        if (p.url && p.url.indexOf('http') === 0) {
-          popupHtml += '<div class="popup-row"><a href="' + escapeHtml(p.url) +
-            '" target="_blank" rel="noopener noreferrer">Googleマップで見る</a></div>';
-        }
-
-        marker.addListener('click', function () {
-          infoWindow.setContent(popupHtml);
-          infoWindow.open(map, marker);
-        });
-
-        return marker;
+    const markers = places.map(function (p) {
+      const marker = new google.maps.Marker({
+        position: { lat: p.lat, lng: p.lng },
+        title: p.name
       });
 
-      new markerClusterer.MarkerClusterer({ map, markers });
+      let popupHtml =
+        '<div class="popup-name">' + escapeHtml(p.name) + '</div>' +
+        '<div class="popup-row">評価: ' + escapeHtml(p.rating || '-') + '</div>' +
+        '<div class="popup-row">住所: ' + escapeHtml(p.address || '-') + '</div>' +
+        '<div class="popup-row">レビュー数: ' + escapeHtml(p.reviews || '-') + '</div>';
+      if (p.url && p.url.indexOf('http') === 0) {
+        popupHtml += '<div class="popup-row"><a href="' + escapeHtml(p.url) +
+          '" target="_blank" rel="noopener noreferrer">Googleマップで見る</a></div>';
+      }
+
+      marker.addListener('click', function () {
+        infoWindow.setContent(popupHtml);
+        infoWindow.open(map, marker);
+      });
+
+      return marker;
     });
+
+    new markerClusterer.MarkerClusterer({ map, markers });
   }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDf•••••••••••••••••••••••••••••••&callback=initMap" async defer></script>
